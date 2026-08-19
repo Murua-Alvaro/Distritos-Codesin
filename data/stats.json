@@ -1,0 +1,148 @@
+{
+  "title": "Distritos CODESIN · Mazatlán",
+  "source_file": "AGEB dividida por polígonos CORREGIDO (1)(2).zip",
+  "district_count": 13,
+  "ageb_count": 295,
+  "unique_ageb_count": 295,
+  "duplicate_memberships": 0,
+  "district_membership_coverage_pct": 100.0,
+  "total_area_km2": 83.77,
+  "districts": [
+    {
+      "district": "Centro Histórico",
+      "ageb_count": 9,
+      "area_km2": 3.842,
+      "share_ageb_pct": 3.1,
+      "avg_ageb_km2": 0.427,
+      "centroid_lon": -106.421911,
+      "centroid_lat": 23.199562,
+      "color": "#2563EB"
+    },
+    {
+      "district": "Cerritos",
+      "ageb_count": 4,
+      "area_km2": 11.822,
+      "share_ageb_pct": 1.4,
+      "avg_ageb_km2": 2.955,
+      "centroid_lon": -106.466722,
+      "centroid_lat": 23.289762,
+      "color": "#0F766E"
+    },
+    {
+      "district": "Conchi - Libramiento",
+      "ageb_count": 28,
+      "area_km2": 7.35,
+      "share_ageb_pct": 9.5,
+      "avg_ageb_km2": 0.263,
+      "centroid_lon": -106.39946,
+      "centroid_lat": 23.262423,
+      "color": "#7C3AED"
+    },
+    {
+      "district": "Desarrollos Noroeste",
+      "ageb_count": 29,
+      "area_km2": 4.124,
+      "share_ageb_pct": 9.8,
+      "avg_ageb_km2": 0.142,
+      "centroid_lon": -106.425391,
+      "centroid_lat": 23.287752,
+      "color": "#C2410C"
+    },
+    {
+      "district": "Expansión Norte",
+      "ageb_count": 64,
+      "area_km2": 7.997,
+      "share_ageb_pct": 21.7,
+      "avg_ageb_km2": 0.125,
+      "centroid_lon": -106.386614,
+      "centroid_lat": 23.277099,
+      "color": "#0369A1"
+    },
+    {
+      "district": "Flores Magón",
+      "ageb_count": 19,
+      "area_km2": 5.036,
+      "share_ageb_pct": 6.4,
+      "avg_ageb_km2": 0.265,
+      "centroid_lon": -106.376166,
+      "centroid_lat": 23.252769,
+      "color": "#A21CAF"
+    },
+    {
+      "district": "Jabalíes - Zapata",
+      "ageb_count": 9,
+      "area_km2": 3.657,
+      "share_ageb_pct": 3.1,
+      "avg_ageb_km2": 0.406,
+      "centroid_lon": -106.403872,
+      "centroid_lat": 23.24872,
+      "color": "#15803D"
+    },
+    {
+      "district": "Juárez - Villa Galaxia",
+      "ageb_count": 25,
+      "area_km2": 7.041,
+      "share_ageb_pct": 8.5,
+      "avg_ageb_km2": 0.282,
+      "centroid_lon": -106.410336,
+      "centroid_lat": 23.232544,
+      "color": "#B45309"
+    },
+    {
+      "district": "Malecón",
+      "ageb_count": 5,
+      "area_km2": 3.787,
+      "share_ageb_pct": 1.7,
+      "avg_ageb_km2": 0.757,
+      "centroid_lon": -106.430016,
+      "centroid_lat": 23.232523,
+      "color": "#4338CA"
+    },
+    {
+      "district": "Prados - Mateos",
+      "ageb_count": 27,
+      "area_km2": 8.672,
+      "share_ageb_pct": 9.2,
+      "avg_ageb_km2": 0.321,
+      "centroid_lon": -106.42682,
+      "centroid_lat": 23.258472,
+      "color": "#BE123C"
+    },
+    {
+      "district": "Puerto - Industria",
+      "ageb_count": 24,
+      "area_km2": 8.701,
+      "share_ageb_pct": 8.1,
+      "avg_ageb_km2": 0.363,
+      "centroid_lon": -106.381137,
+      "centroid_lat": 23.20898,
+      "color": "#047857"
+    },
+    {
+      "district": "Urías",
+      "ageb_count": 45,
+      "area_km2": 5.194,
+      "share_ageb_pct": 15.3,
+      "avg_ageb_km2": 0.115,
+      "centroid_lon": -106.373437,
+      "centroid_lat": 23.228606,
+      "color": "#6D28D9"
+    },
+    {
+      "district": "Zona Dorada",
+      "ageb_count": 7,
+      "area_km2": 6.426,
+      "share_ageb_pct": 2.4,
+      "avg_ageb_km2": 0.918,
+      "centroid_lon": -106.450623,
+      "centroid_lat": 23.256373,
+      "color": "#475569"
+    }
+  ],
+  "notes": [
+    "La capa corregida contiene 295 AGEB con geometría y 295 membresías únicas entre 13 distritos.",
+    "No se detectaron AGEBS asignadas simultáneamente a más de un distrito.",
+    "Las áreas son calculadas en UTM 13N (EPSG:32613) a partir de las geometrías del archivo fuente.",
+    "Los indicadores económicos DENUE no se incorporan en esta versión para evitar mezclar geometría validada con cifras no incluidas en el ZIP fuente."
+  ]
+}
