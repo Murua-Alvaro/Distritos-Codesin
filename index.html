@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Mapa interactivo de los 13 distritos CODESIN de Mazatlán y sus AGEBS corregidas." />
+  <meta name="description" content="Mapa económico interactivo de los 13 distritos CODESIN de Mazatlán, regionalización corregida y DENUE 05/2025." />
   <title>Distritos CODESIN · Mazatlán</title>
   <link rel="preconnect" href="https://unpkg.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3yn0pe8x3uDYgyAh5V2z+3kz0GEeA=" crossorigin="" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260819-2" />
 </head>
 <body>
   <div id="loading" class="loading-screen">
     <div class="loading-card">
       <div class="brand-mark large"><span></span><span></span><span></span></div>
-      <strong>Cargando cartografía</strong>
-      <small>13 distritos · 295 AGEBS</small>
+      <strong>Cargando inteligencia territorial</strong>
+      <small>13 distritos · 295 AGEB · DENUE 05/2025</small>
     </div>
   </div>
 
@@ -26,6 +26,10 @@
         <h1>Distritos CODESIN <span>· Mazatlán</span></h1>
       </div>
     </div>
+    <div class="header-context">
+      <span class="header-chip">DENUE · MAY 2025</span>
+      <span class="header-chip subtle">Regionalización corregida</span>
+    </div>
     <div class="top-actions">
       <button id="fitBtn" class="ghost-btn" type="button" title="Volver a la extensión completa">Recentrar</button>
       <button id="aboutBtn" class="ghost-btn" type="button">Metodología</button>
@@ -35,20 +39,30 @@
   <main class="app-shell">
     <aside class="sidebar left-panel">
       <section class="hero-copy">
-        <div class="status-pill"><i></i> Regionalización validada</div>
-        <h2>Lectura territorial por distritos y AGEB</h2>
-        <p>Explora la regionalización corregida sin duplicaciones de AGEB. Selecciona un distrito o busca directamente una CVEGEO.</p>
+        <div class="status-pill"><i></i> Cobertura económica auditada</div>
+        <h2>Lectura económica por distrito</h2>
+        <p>Compara escala, intensidad, estructura sectorial y especialización de los 13 distritos sobre la membresía corregida de 295 AGEB.</p>
       </section>
 
-      <section class="kpi-grid" id="kpiGrid">
-        <article><span>Distritos</span><strong id="kpiDistricts">13</strong></article>
-        <article><span>AGEBS únicas</span><strong id="kpiAgebs">295</strong></article>
-        <article><span>Duplicadas</span><strong id="kpiDup">0</strong></article>
-        <article><span>Cobertura</span><strong id="kpiCoverage">100%</strong></article>
+      <section class="kpi-grid overview-kpis">
+        <article><span>Establecimientos mapeados</span><strong id="kpiMapped">25,422</strong><small>universo CODESIN</small></article>
+        <article><span>Cobertura DENUE</span><strong id="kpiCoverage">94.33%</strong><small>del total municipal</small></article>
+        <article><span>Distritos</span><strong id="kpiDistricts">13</strong><small>regionalización</small></article>
+        <article><span>AGEB asignadas</span><strong id="kpiAgebs">295</strong><small>0 duplicadas</small></article>
       </section>
+
+      <div class="coverage-strip">
+        <div><span>Total municipal</span><strong id="municipalTotal">26,950</strong></div>
+        <div class="divider"></div>
+        <div><span>Fuera de CODESIN</span><strong id="outsideTotal">1,528</strong></div>
+      </div>
 
       <section class="control-card">
-        <label class="field-label" for="viewMode">Vista territorial</label>
+        <div class="section-heading compact-heading">
+          <div><span>Explorar</span><strong>Mapa territorial</strong></div>
+        </div>
+
+        <label class="field-label" for="viewMode">Vista</label>
         <div class="segmented" id="viewMode">
           <button type="button" class="active" data-mode="districts">Distritos</button>
           <button type="button" data-mode="agebs">AGEB</button>
@@ -57,18 +71,23 @@
         <label class="field-label" for="districtSelect">Distrito</label>
         <select id="districtSelect"><option value="">Todos los distritos</option></select>
 
-        <label class="field-label" for="searchInput">Buscar</label>
+        <label class="field-label" for="searchInput">Buscar AGEB o distrito</label>
         <div class="search-box">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
-          <input id="searchInput" type="search" autocomplete="off" placeholder="CVEGEO o distrito…" />
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Ej. 2501200011527…" />
         </div>
         <div id="searchResults" class="search-results"></div>
       </section>
 
       <section class="control-card ranking-card">
         <div class="section-heading">
-          <div><span>Comparación</span><strong>AGEBS por distrito</strong></div>
-          <small>295 total</small>
+          <div><span>Comparación</span><strong>Ranking distrital</strong></div>
+          <select id="rankMetric" class="mini-select" aria-label="Variable del ranking">
+            <option value="establishments">Establecimientos</option>
+            <option value="est_per_ageb">Estab. / AGEB</option>
+            <option value="est_per_km2">Estab. / km²</option>
+            <option value="hhi">HHI sectorial</option>
+          </select>
         </div>
         <div id="ranking" class="ranking"></div>
       </section>
@@ -76,66 +95,143 @@
 
     <section class="map-stage">
       <div id="map"></div>
+
       <div class="map-toolbar">
         <button id="lightBase" class="map-btn active" type="button">Claro</button>
         <button id="osmBase" class="map-btn" type="button">Calles</button>
       </div>
+
+      <div class="map-context-card">
+        <span>Universo visible</span>
+        <strong id="mapContextTitle">13 distritos CODESIN</strong>
+        <small id="mapContextMeta">25,422 establecimientos · 295 AGEB</small>
+      </div>
+
       <div class="map-legend" id="legend">
         <div class="legend-title"><span>Distritos</span><small>clic para filtrar</small></div>
         <div id="legendItems" class="legend-items"></div>
       </div>
-      <div class="map-hint" id="mapHint">Selecciona un distrito para ver su detalle</div>
+
+      <div class="map-hint" id="mapHint">Selecciona un distrito para abrir su ficha económica</div>
     </section>
 
     <aside class="sidebar right-panel">
-      <section id="emptyDetail" class="detail-empty">
-        <div class="detail-icon">↗</div>
-        <div class="eyebrow">DETALLE TERRITORIAL</div>
-        <h2>Selecciona un distrito</h2>
-        <p>El panel mostrará superficie, número de AGEBS, participación territorial y el listado de CVEGEO que integran la zona.</p>
+      <section id="emptyDetail" class="overview-detail">
+        <div class="detail-overline"><span class="detail-icon">↗</span><div><div class="eyebrow">PANORAMA DISTRITAL</div><strong>DENUE 05/2025</strong></div></div>
+        <h2>Una ciudad con varios núcleos de actividad</h2>
+        <p>Selecciona un distrito para revisar su composición económica. Mientras tanto, estos son los principales contrastes del universo mapeado.</p>
+
+        <div class="insight-stack">
+          <article class="insight-card">
+            <span>Mayor stock</span>
+            <strong>Juárez - Villa Galaxia</strong>
+            <small>3,951 establecimientos · 15.54% del universo CODESIN</small>
+          </article>
+          <article class="insight-card">
+            <span>Mayor intensidad por AGEB</span>
+            <strong>Malecón</strong>
+            <small>465.2 establecimientos por AGEB asignada</small>
+          </article>
+          <article class="insight-card">
+            <span>Concentración de los 3 líderes</span>
+            <strong>40.48%</strong>
+            <small>Juárez - Villa Galaxia · Prados - Mateos · Centro Histórico</small>
+          </article>
+        </div>
+
+        <div class="overview-note">
+          <span class="overview-note-dot"></span>
+          <div><strong>Cobertura transparente</strong><p>Los distritos contienen 25,422 de 26,950 establecimientos municipales. Los 1,528 restantes permanecen fuera de la regionalización CODESIN.</p></div>
+        </div>
       </section>
 
       <section id="districtDetail" class="detail-content hidden">
         <div class="detail-header">
           <div class="detail-color" id="detailColor"></div>
-          <div>
-            <div class="eyebrow">DISTRITO CODESIN</div>
+          <div class="detail-title-wrap">
+            <div class="eyebrow">DISTRITO CODESIN · DENUE 05/2025</div>
             <h2 id="detailName">—</h2>
+            <div id="detailBadges" class="detail-badges"></div>
           </div>
         </div>
-        <div class="detail-metrics">
-          <article><span>AGEBS</span><strong id="detailAgebs">—</strong></article>
-          <article><span>Superficie</span><strong id="detailArea">—</strong><small>km²</small></article>
-          <article><span>Participación</span><strong id="detailShare">—</strong><small>de AGEBS</small></article>
-          <article><span>Área media</span><strong id="detailAvg">—</strong><small>km² / AGEB</small></article>
+
+        <div class="detail-metrics primary-metrics">
+          <article class="metric-wide"><span>Establecimientos</span><strong id="detailEstablishments">—</strong><small id="detailStockRank">—</small></article>
+          <article><span>Participación CODESIN</span><strong id="detailShareCodesin">—</strong><small>sobre 25,422</small></article>
+          <article><span>Participación municipal</span><strong id="detailShareMunicipal">—</strong><small>sobre 26,950</small></article>
+          <article><span>AGEB activas</span><strong id="detailActiveAgebs">—</strong><small id="detailAssignedAgebs">—</small></article>
+          <article><span>Estab. / AGEB</span><strong id="detailPerAgeb">—</strong><small id="detailIntensityRank">—</small></article>
+          <article><span>Estab. / km²</span><strong id="detailPerKm2">—</strong><small>densidad física</small></article>
         </div>
-        <div class="mini-section">
-          <div class="section-heading"><div><span>Composición</span><strong>AGEBS del distrito</strong></div><small id="agebListCount"></small></div>
-          <div id="agebList" class="ageb-list"></div>
+
+        <div class="detail-section">
+          <div class="section-heading"><div><span>Estructura</span><strong>Principales sectores</strong></div><small>Top 5</small></div>
+          <div id="sectorBars" class="sector-bars"></div>
+        </div>
+
+        <div class="detail-section">
+          <div class="section-heading"><div><span>Especialización</span><strong>Cociente de localización</strong></div><small>LQ · n≥20</small></div>
+          <div id="lqList" class="lq-list"></div>
+        </div>
+
+        <div class="detail-section compact-section">
+          <div class="section-heading"><div><span>Perfil</span><strong>Concentración y escala</strong></div></div>
+          <div class="profile-grid">
+            <article><span>HHI sectorial</span><strong id="detailHHI">—</strong><small id="detailHHIText">—</small></article>
+            <article><span>Clases SCIAN</span><strong id="detailClasses">—</strong><small>códigos de 6 dígitos</small></article>
+            <article><span>0–10 personas</span><strong id="detailMicro">—</strong><small>microunidades</small></article>
+            <article><span>31+ personas</span><strong id="detailLarge">—</strong><small>estratos superiores</small></article>
+          </div>
+        </div>
+
+        <div class="detail-section compact-section">
+          <div class="section-heading"><div><span>Territorio</span><strong>Geometría del distrito</strong></div><small id="detailArea">—</small></div>
+          <div class="territory-line"><span>AGEB asignadas</span><strong id="territoryAgebAssigned">—</strong></div>
+          <div class="territory-line"><span>AGEB con actividad 2025</span><strong id="territoryAgebActive">—</strong></div>
+          <div class="territory-line"><span>Superficie calculada</span><strong id="territoryArea">—</strong></div>
+          <details class="ageb-details">
+            <summary><span>Ver AGEBS del distrito</span><strong id="agebListCount">—</strong></summary>
+            <div id="agebList" class="ageb-list"></div>
+          </details>
         </div>
       </section>
 
       <section id="agebDetail" class="detail-content hidden">
         <div class="detail-header">
           <div class="detail-color" id="agebDetailColor"></div>
-          <div>
-            <div class="eyebrow">ÁREA GEOESTADÍSTICA BÁSICA</div>
+          <div class="detail-title-wrap">
+            <div class="eyebrow">ÁREA GEOESTADÍSTICA BÁSICA · 05/2025</div>
             <h2 id="agebCode">—</h2>
+            <div class="detail-badges"><span id="agebDistrictName" class="detail-badge">—</span></div>
           </div>
         </div>
-        <div class="ageb-district-link" id="agebDistrictName">—</div>
-        <div class="detail-metrics two-cols">
+
+        <div class="detail-metrics primary-metrics ageb-metrics">
+          <article class="metric-wide"><span>Establecimientos</span><strong id="agebEstablishments">—</strong><small>registros DENUE</small></article>
           <article><span>Superficie</span><strong id="agebArea">—</strong><small>km²</small></article>
-          <article><span>Ubicación</span><strong id="agebCoords">—</strong><small>centroide</small></article>
+          <article><span>Estab. / km²</span><strong id="agebDensity">—</strong><small>densidad física</small></article>
+          <article><span>Clases SCIAN</span><strong id="agebClasses">—</strong><small>actividades distintas</small></article>
+          <article><span>0–10 personas</span><strong id="agebMicro">—</strong><small>microunidades</small></article>
         </div>
-        <button id="goDistrictBtn" class="primary-btn" type="button">Ver distrito completo</button>
+
+        <div class="detail-section">
+          <div class="section-heading"><div><span>Estructura local</span><strong>Sectores principales</strong></div><small>AGEB</small></div>
+          <div id="agebSectorBars" class="sector-bars"></div>
+        </div>
+
+        <div class="ageb-location-card">
+          <div><span>Centroide</span><strong id="agebCoords">—</strong></div>
+          <div><span>Código AGEB</span><strong id="agebShortCode">—</strong></div>
+        </div>
+        <button id="goDistrictBtn" class="primary-btn" type="button">Volver al distrito completo</button>
       </section>
 
       <section class="quality-card">
-        <div class="section-heading"><div><span>Control de calidad</span><strong>Estado de la capa</strong></div></div>
-        <div class="quality-row"><span><i class="ok"></i>Membresías únicas</span><strong>295 / 295</strong></div>
-        <div class="quality-row"><span><i class="ok"></i>Duplicaciones</span><strong>0</strong></div>
-        <div class="quality-row"><span><i class="ok"></i>Distritos</span><strong>13</strong></div>
+        <div class="section-heading"><div><span>Control de calidad</span><strong>Cobertura del análisis</strong></div></div>
+        <div class="quality-row"><span><i class="ok"></i>AGEB únicas</span><strong>295 / 295</strong></div>
+        <div class="quality-row"><span><i class="ok"></i>Duplicaciones territoriales</span><strong>0</strong></div>
+        <div class="quality-row"><span><i class="ok"></i>DENUE asignado</span><strong>94.33%</strong></div>
+        <div class="quality-row warning-row"><span><i class="warn"></i>Fuera de regionalización</span><strong>1,528</strong></div>
       </section>
     </aside>
   </main>
@@ -145,19 +241,21 @@
     <div class="modal-card">
       <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">×</button>
       <div class="eyebrow">NOTA METODOLÓGICA</div>
-      <h2 id="modalTitle">Regionalización CODESIN corregida</h2>
-      <p>Esta visualización usa directamente la geometría del archivo <strong>AGEB dividida por polígonos CORREGIDO (1)(2).zip</strong>. Solo se conservan entidades con geometría válida.</p>
+      <h2 id="modalTitle">Regionalización CODESIN + DENUE 05/2025</h2>
+      <p>La capa territorial usa la regionalización corregida de <strong>295 AGEB únicas distribuidas en 13 distritos</strong>, sin duplicaciones de membresía. La lectura económica se construye con el DENUE de Mazatlán, corte mayo de 2025.</p>
       <div class="modal-grid">
-        <article><strong>295</strong><span>AGEBS con geometría</span></article>
-        <article><strong>13</strong><span>distritos territoriales</span></article>
-        <article><strong>0</strong><span>membresías duplicadas</span></article>
+        <article><strong>26,950</strong><span>DENUE municipal</span></article>
+        <article><strong>25,422</strong><span>asignados a CODESIN</span></article>
+        <article><strong>94.33%</strong><span>cobertura económica</span></article>
+        <article><strong>295</strong><span>AGEB asignadas</span></article>
       </div>
-      <p>Las superficies se calculan en <strong>UTM zona 13N (EPSG:32613)</strong>. La versión actual no incorpora DENUE ni otros indicadores económicos porque esos datos no forman parte del ZIP fuente; esto evita presentar cifras no auditadas junto con la regionalización ya validada.</p>
-      <p class="modal-note">La carpeta incluye <code>data/ageb_distrito.csv</code> para auditoría y cruces posteriores con DENUE, SCIAN u otras bases.</p>
+      <p><strong>Participación CODESIN</strong> usa 25,422 como denominador. <strong>Participación municipal</strong> usa 26,950. Los 1,528 establecimientos restantes se conservan como “fuera de regionalización CODESIN” y no se reasignan por proximidad.</p>
+      <p>El HHI mide concentración sectorial; el LQ compara la participación de un sector en el distrito contra su peso en el total municipal. Sólo se muestran especializaciones con al menos 20 establecimientos. La superficie y la densidad física se calculan con la geometría corregida.</p>
+      <p class="modal-note">DENUE es un directorio de unidades económicas: no representa ventas, productividad, valor agregado ni empleo puntual.</p>
     </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260819-2"></script>
 </body>
 </html>
