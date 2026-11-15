@@ -59,3 +59,17 @@ No requiere build, Node, backend ni base de datos.
 ## Nota técnica
 
 Leaflet se carga desde CDN y el mapa base utiliza CARTO/OpenStreetMap. Por eso el sitio debe abrirse mediante GitHub Pages o un servidor HTTP; abrir `index.html` directamente como archivo local puede impedir la carga de los JSON por restricciones del navegador.
+
+## Desarrolladores · Cartografía urbana
+
+La página `desarrolladores.html` está enlazada desde el menú superior y la barra izquierda de `index.html`, dentro del mismo sitio CODESIN.
+
+- **Huella urbana:** consulta de teselas de MapBiomas México por año; requiere disponibilidad externa de su API y CORS. No hay un raster satelital en este repositorio.
+- **Densidad de población:** carga pública bajo demanda de CONAPO 2020 por AGEB o importación manual del CSV/ZIP de INEGI; los datos faltantes nunca se sustituyen por cero.
+- **Densidad de viviendas:** importación del Censo INEGI 2020, sin datos inventados.
+- **IMPLAN:** consulta de 14 categorías de parámetros urbanísticos. No equivale a geometría oficial de zonificación.
+- **Cartografía:** reutiliza `data/agebs.geojson` (295 polígonos), `data/distritos.geojson` (13 polígonos) y `data/economic_stats.json`, sin clonar ni modificar sus registros.
+
+**Entrada directa:** `/desarrolladores.html`. Si GitHub Pages está configurado para la rama principal, la ruta del proyecto suele ser `https://murua-alvaro.github.io/Distritos-Codesin/desarrolladores.html`.
+
+**Control:** mantener la separación entre densidad poblacional observada 2020 y densidad de negocios DENUE 2025. Los parámetros IMPLAN no son polígonos de uso del suelo.
