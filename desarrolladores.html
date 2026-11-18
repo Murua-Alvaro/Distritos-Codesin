@@ -10,6 +10,19 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root{--bg:#091219;--panel:#0d1a22;--panel2:#12232d;--line:#283d49;--text:#e9f0f2;--muted:#93a8b4;--teal:#65e6b9;--teal2:#35a788;--amber:#f2c27a;--red:#e99784;--blue:#78b7ef}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:-.012em}button,select,input{font:inherit}button{cursor:pointer}a{color:#b0efd9;text-decoration:none}a:hover{text-decoration:underline}#shell{height:100vh;display:grid;grid-template-columns:314px 1fr 320px;overflow:hidden}.sidebar,.details{overflow:auto;background:var(--panel);z-index:500;min-height:0}.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column}.details{border-left:1px solid var(--line);background:#101e26}.brand{padding:24px 24px 20px;border-bottom:1px solid var(--line)}.brandline{display:flex;gap:12px;align-items:center}.mark{height:40px;width:40px;display:grid;place-items:center;border:1px solid #448a75;background:#16342c;border-radius:11px;color:var(--teal);font-weight:900;font-size:22px}.eyebrow{font-size:10px;letter-spacing:.19em;font-weight:780;text-transform:uppercase;color:var(--teal)}h1{margin:5px 0 2px;font-size:21px;line-height:1.18}h2{font-size:16px;margin:0 0 14px}h3{font-size:13px;margin:0 0 11px}.sub{font-size:12px;color:var(--muted);line-height:1.5}.section{padding:18px 21px;border-bottom:1px solid var(--line)}.nav{display:grid;gap:7px}.navbutton{border:1px solid transparent;background:none;color:#b6c9d2;text-align:left;padding:11px 12px;border-radius:10px;font-size:12px;font-weight:680;display:flex;align-items:center;gap:10px}.navbutton:hover{background:#1b2c35}.navbutton.active{background:#16392f;color:var(--teal);border-color:#33725c}.dot{height:8px;width:8px;border-radius:50%;background:#779cad}.navbutton.active .dot{background:var(--teal)}.groupLabel{font-size:10px;text-transform:uppercase;letter-spacing:.13em;font-weight:800;color:#8da5b1;margin-bottom:12px}.field{margin-top:13px;display:grid;gap:7px}label{font-size:11px;color:#b8cbd5;font-weight:650}select,.field input:not([type=range]){border:1px solid #344b58;background:#102029;color:var(--text);width:100%;border-radius:8px;padding:10px;font-size:12px}.field input[type=range],.timeline input[type=range]{width:100%;accent-color:var(--teal)}.tiny{font-size:10px;color:#7f99a6;line-height:1.45}.note{border:1px solid #5b4830;background:#291f17;color:#f2d6ab;font-size:11px;line-height:1.5;border-radius:10px;padding:11px 12px}.success{border-color:#25674f;background:#102b23;color:#a2edd3}.control{border:1px solid #355362;color:#cedfe4;background:#192b35;padding:9px 12px;font-size:11px;font-weight:700;border-radius:8px}.control:hover{background:#24404c}.control:disabled{opacity:.45;cursor:not-allowed}.action{background:#1c5949;border:1px solid #388b71;color:#c8ffe9;padding:11px 13px;border-radius:9px;font-size:12px;font-weight:750}.legend{display:flex;flex-direction:column;gap:8px;font-size:11px;color:#bad0d5}.swatch{height:10px;width:12px;display:inline-block;border-radius:2px;margin-right:8px}.map-wrap{position:relative;min-width:0;background:#071015}#map{width:100%;height:100%}.maptop{position:absolute;z-index:450;top:18px;left:18px;right:18px;display:flex;gap:12px;pointer-events:none}.maptop .pill{pointer-events:auto;padding:12px 15px;background:#101e27ee;backdrop-filter:blur(14px);border:1px solid #3c535b;border-radius:10px;font-size:11px;display:flex;align-items:center;gap:8px}.maptop .spacer{flex:1}.maptop .pill strong{font-size:12px}.state{font-size:10px;padding:4px 7px;border-radius:5px;border:1px solid #4d7467;color:#a9ead0;background:#184032}.state.loading{color:#efd3a6;border-color:#886c45;background:#3e3426}.state.error{color:#ffc2ad;border-color:#884d3f;background:#3a2423}.timeline{position:absolute;bottom:24px;left:24px;right:24px;z-index:460;background:#101e27f2;border:1px solid #3d5a62;border-radius:14px;padding:17px 22px;backdrop-filter:blur(16px);box-shadow:0 12px 38px #0009}.timeline-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.timeline .years{display:flex;justify-content:space-between;color:#93a9ad;font-size:10px}.timelineheadlabel{font-size:12px;font-weight:700}.timeline strong{font-size:22px;color:var(--teal)}.right-top{padding:24px 21px 12px;border-bottom:1px solid var(--line)}.right-body{padding:20px}.kpiwrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}.kpi{background:#162832;border:1px solid #2f4753;border-radius:11px;padding:13px 11px}.kpi strong{display:block;font-size:19px;letter-spacing:-.05em;color:#edf5f5}.kpi span{display:block;font-size:10px;color:#92aeba;margin-top:5px;line-height:1.3}.dataTable{width:100%;border-collapse:collapse;font-size:11px}.dataTable th,.dataTable td{padding:10px 5px;border-bottom:1px solid #29404b;text-align:left;vertical-align:top}.dataTable th{color:#8dabba;font-weight:650}.dataTable td{color:#d9e5e8}.metric{display:flex;justify-content:space-between;padding:10px 0;gap:10px;border-bottom:1px solid #273e46;font-size:12px}.metric strong{color:#dff6e6}.cardlabel{font-size:10px;letter-spacing:.11em;color:var(--teal);font-weight:800;text-transform:uppercase}.box{border:1px solid #2a4750;border-radius:11px;padding:14px;margin:12px 0;background:#12252f}.linkbtn{display:block;border:1px solid #466a61;border-radius:9px;padding:11px 12px;color:#bcebd9;font-size:12px;margin:12px 0;font-weight:700}.foot{padding:19px 23px;font-size:10px;color:#7e99a5;line-height:1.5;margin-top:auto}.layer-switch{display:flex;gap:7px}.layer-switch button{color:#a9c2ce;border:1px solid #3d5965;border-radius:8px;padding:8px 10px;background:#18303a;font-size:11px}.layer-switch .on{background:#235c4c;color:#d4fff0}.leaflet-container{background:#d9e2e0}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#11252d;color:#ebf3f3}.leaflet-popup-content{font-size:12px}.comp-split{position:absolute;z-index:465;left:50%;top:85px;bottom:125px;border-left:2px solid white;pointer-events:none;display:none;filter:drop-shadow(0 0 2px #000)}.comp-split:before{content:'↔';position:absolute;top:48%;left:-18px;background:white;color:#071219;border-radius:30px;width:34px;height:34px;display:grid;place-items:center;font-size:17px;font-weight:900}.buttonrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.warninline{font-size:10px;line-height:1.4;color:#ebc18e}.setings{padding:10px 0}.togglelabel{display:flex;align-items:center;gap:10px;font-size:11px;color:#c4d7dc;padding:7px 0}.togglelabel input{accent-color:var(--teal)}.area-bars{display:flex;align-items:flex-end;height:92px;gap:19px;margin:10px 0 6px}.areabar{width:80px;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;text-align:center;height:100%}.areabar>i{display:block;background:#2f8d78;border-radius:4px 4px 0 0}.areabar b{font-size:11px}.areabar span{font-size:10px;color:#92b4bc}.badgeSource{border:1px solid #48675e;color:#a6decd;padding:4px 7px;border-radius:7px;font-size:10px}.heat{display:inline-block;width:12px;height:10px;vertical-align:middle;margin-right:4px;border-radius:2px}.statusline{min-height:32px;line-height:1.5;font-size:11px;color:#a9c2c9}.dashed{border-top:1px dashed #48606a;margin:18px 0}.filedrop{display:block;padding:13px;background:#142932;border:1px dashed #588b7a;border-radius:10px;font-size:11px;color:#bce7db;cursor:pointer;line-height:1.5}input[type=file]{width:100%;font-size:10px;color:#b8cad1;margin-top:9px}.darkmap .leaflet-tile-pane{filter:saturate(.72)}.hide{display:none!important}@media(max-width:1160px){#shell{grid-template-columns:270px 1fr}.details{position:absolute;right:8px;top:72px;bottom:130px;width:285px;box-shadow:0 15px 45px #000a;border:1px solid #4b6069;border-radius:10px}.details.collapsed{display:none}.maptop{right:15px}}@media(max-width:740px){#shell{grid-template-columns:1fr}.sidebar{position:absolute;top:0;left:0;width:275px;bottom:0;z-index:700;box-shadow:0 15px 45px #0009}.sidebar.collapsed{transform:translateX(-100%)}.maptop{top:10px;left:12px;right:12px}.maptop .pill{padding:8px}.timeline{left:10px;right:10px;bottom:10px;padding:12px}.details{top:75px;bottom:155px;right:10px;max-width:calc(100vw - 20px)}.mobilemenu{display:block!important}.brand{padding:17px}.section{padding:13px 18px}.timeline strong{font-size:18px}}.mobilemenu{display:none}
+
+/* Conselva: visor externo integrado sin alterar los datos ni la cartografía CODESIN */
+.conselva-overlay{position:absolute;inset:0;z-index:420;background:#08141b;display:flex;flex-direction:column;padding:80px 16px 17px;gap:10px}
+.conselva-overlay__head{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:10px 14px;border:1px solid #304c53;border-radius:10px;background:#11242a}
+.conselva-overlay__head strong{display:block;font-size:13px;color:#e6f8f1}
+.conselva-overlay__head span{display:block;margin-top:3px;font-size:10px;color:#98bbc0;line-height:1.45}
+.conselva-overlay__head a{white-space:nowrap;font-size:11px;font-weight:750;color:#a8efd8;border:1px solid #3c7764;border-radius:8px;padding:10px}
+.conselva-overlay__frame{flex:1;min-height:200px;overflow:hidden;border:1px solid #35535d;border-radius:11px;background:#f1f5f3;position:relative}
+.conselva-overlay__frame iframe{display:block;width:100%;height:100%;border:0;background:#f1f5f3}
+.conselva-overlay__foot{font-size:10px;color:#9fbdc4;line-height:1.45}
+.conselva-source-mark{font-size:10px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:#8bd6bc;margin-bottom:9px}
+.conselva-control-help{font-size:11px;color:#afc6cc;line-height:1.55;margin-top:9px}
+@media(max-width:740px){.conselva-overlay{padding:68px 9px 12px}.conselva-overlay__head{align-items:flex-start;flex-direction:column;gap:8px}.conselva-overlay__head a{padding:8px 10px}}
 </style></head>
 <body>
 <div id="shell">
@@ -20,6 +33,7 @@
   <button class="navbutton" data-mode="poblacion"><i class="dot"></i>Densidad de población</button>
   <button class="navbutton" data-mode="vivienda"><i class="dot"></i>Densidad de vivienda</button>
   <button class="navbutton" data-mode="implan"><i class="dot"></i>Normativa · IMPLAN</button>
+  <button class="navbutton" data-mode="conselva"><i class="dot"></i>Riesgo climático · Conselva</button>
  </div></section>
  <section class="section" id="dynamicControls">
   <div class="groupLabel">Huella urbana observada · MapBiomas México</div>
@@ -31,13 +45,31 @@
   <div class="note" id="mbStatus">Fuente remota: el mapa intentará conectarse a la API pública de MapBiomas al abrir.</div>
   <a class="linkbtn" target="_blank" rel="noopener noreferrer" href="https://plataforma.mexico.mapbiomas.org/">Abrir plataforma oficial de MapBiomas ↗</a>
  </section>
- <section class="section"><div class="groupLabel">Capas y territorio</div>
+ <section class="section hide" id="conselvaControls" aria-label="Visores públicos de Conselva">
+  <div class="groupLabel">Estudio climático · Mazatlán</div>
+  <div class="conselva-source-mark">Conselva · PARES · IMPLAN</div>
+  <div class="sub">Acceso al Explorador de Vulnerabilidad Socioambiental de Conselva. Los mapas se muestran desde su servidor, sin copiar geometrías ni atribuir datos de riesgo a las AGEB de GROWA.</div>
+  <div class="field"><label for="conselvaLayer">Mapa público</label><select id="conselvaLayer">
+    <option value="inundaciones">Inundaciones · visor completo</option>
+    <option value="laderas">Inestabilidad de laderas</option>
+    <option value="erosion">Erosión natural</option>
+    <option value="marea">Marea de tormenta</option>
+    <option value="poblacion">Exposición de población urbana</option>
+    <option value="infraestructura">Exposición de infraestructura</option>
+    <option value="sectorial">Vulnerabilidad sectorial</option>
+    <option value="socioambiental">Vulnerabilidad socioambiental</option>
+  </select></div>
+  <a id="conselvaOpen" class="linkbtn" href="https://conselva.org/mapa-vulnerabilidad/" target="_blank" rel="noopener noreferrer">Abrir mapa seleccionado en Conselva ↗</a>
+  <a class="linkbtn" target="_blank" rel="noopener noreferrer" href="https://conselva.org/estudio-de-vulnerabilidad/">Estudio, metodología y resultados ↗</a>
+  <p class="conselva-control-help">El visor requiere conexión a Internet. Si el sitio no permite incrustación, usa «Abrir mapa seleccionado». No es una capa nativa WMS, WFS o GeoJSON y no admite cruces automáticos con DENUE o AGEB.</p>
+ </section>
+ <section class="section" id="territoryControls"><div class="groupLabel">Capas y territorio</div>
   <div class="field"><label>Distrito territorial</label><select id="districtSelect"><option value="">Todos los distritos</option></select></div>
   <label class="togglelabel"><input type="checkbox" id="districtBoundaries" checked> Mostrar límites distritales</label>
   <label class="togglelabel"><input type="checkbox" id="agebBoundaries" checked> Mostrar geometrías AGEB</label>
   <div class="field"><label>Mapa base</label><div class="layer-switch"><button id="streetBtn" class="on">Calles</button><button id="satBtn">Satélite</button></div></div>
  </section>
- <section class="section"><div class="groupLabel">Censo 2020 · INEGI</div><div class="sub">La densidad por AGEB aparecerá cuando incorpores el CSV o ZIP oficial de Sinaloa. El archivo se procesa en tu navegador.</div>
+ <section class="section" id="censusControls"><div class="groupLabel">Censo 2020 · INEGI</div><div class="sub">La densidad por AGEB aparecerá cuando incorpores el CSV o ZIP oficial de Sinaloa. El archivo se procesa en tu navegador.</div>
   <button type="button" class="control" id="loadConapo" style="width:100%;background:#166f69;color:#fff;border-color:#207e76;margin-bottom:10px;font-weight:700">Cargar población CONAPO 2020 por AGEB</button>
   <p class="statusline" id="conapoStatus">Descarga pública bajo demanda (22.9 MB). Fuente CONAPO, espejo abierto de IndiceMx. Sin cifras hasta completar la verificación.</p>
   <label class="filedrop">Agregar Censo 2020 por AGEB y manzana <input id="censusInput" type="file" accept=".zip,.csv,.txt"></label>
@@ -45,9 +77,13 @@
   <button id="exportCensus" class="control" disabled>Exportar base censal integrada</button>
   <a href="https://www.inegi.org.mx/programas/ccpv/2020/" target="_blank" rel="noopener noreferrer" class="linkbtn">Fuente oficial INEGI ↗</a>
  </section>
- <footer class="foot">Fuentes: MapBiomas México (Colección 1), INEGI, IMPLAN Mazatlán PDUCP 2023–2050 y archivo territorial Growa/CODESIN. Ver auditoría: no se inventan píxeles, población por AGEB ni zonificación por predio.</footer>
+ <footer class="foot">Fuentes: MapBiomas México (Colección 1), INEGI, IMPLAN Mazatlán PDUCP 2023–2050, Conselva (visores externos y estudio) y archivo territorial Growa/CODESIN. Ver auditoría: no se inventan píxeles, población por AGEB ni zonificación por predio.</footer>
 </aside>
-<main class="map-wrap"><div id="map"></div><div class="maptop"><button class="pill mobilemenu" id="menuMobile">☰</button><span class="pill"><strong id="topTitle">Huella urbana histórica</strong> <span class="state loading" id="stateBadge">Conectando</span></span><span class="spacer"></span><button class="pill" id="detailToggle">Ficha territorial ☰</button><button class="pill" id="resetBtn">⊞ Restablecer vista</button></div>
+<main class="map-wrap"><div id="map"></div><section id="conselvaEmbed" class="conselva-overlay hide" aria-label="Visualizador público de Conselva">
+  <div class="conselva-overlay__head"><div><strong id="conselvaLayerName">Inundaciones · visor completo</strong><span id="conselvaLayerDescription">Visor público alojado por Conselva</span></div><a id="conselvaDirect" href="https://conselva.org/mapa-vulnerabilidad/" target="_blank" rel="noopener noreferrer">Ver en Conselva ↗</a></div>
+  <div class="conselva-overlay__frame"><iframe id="conselvaFrame" title="Visor público de Conselva · Mazatlán" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" src="about:blank"></iframe></div>
+  <div class="conselva-overlay__foot">Contenido interactivo suministrado por Conselva, Costas y Comunidades A.C. · Si el mapa no se carga, ábrelo desde el enlace superior. Las cifras agregadas del estudio no son estimaciones por AGEB.</div>
+ </section><div class="maptop"><button class="pill mobilemenu" id="menuMobile">☰</button><span class="pill"><strong id="topTitle">Huella urbana histórica</strong> <span class="state loading" id="stateBadge">Conectando</span></span><span class="spacer"></span><button class="pill" id="detailToggle">Ficha territorial ☰</button><button class="pill" id="resetBtn">⊞ Restablecer vista</button></div>
 <div id="compareLine" class="comp-split"></div>
 <div class="timeline" id="timeline"><div class="timeline-head"><span class="timelineheadlabel">Clasificación anual de superficie urbana · MapBiomas</span><span><strong id="currentYear">2025</strong> <span class="badgeSource">Satelital</span></span></div><input id="yearSlider" type="range" min="1985" max="2025" value="2025" step="1"><div class="years"><span>1985</span><span>1995</span><span>2005</span><span>2015</span><span>2025</span></div><div class="tiny">Las manchas coloreadas son píxeles originales solo cuando el servicio remoto responde. Los contornos de AGEB no son huellas edificadas.</div></div>
 </main>
@@ -141,8 +177,8 @@ const D=ATLAS_DATA;
 const N=x=>Number.isFinite(+x)?+x:0;
 const pretty=x=>x==null||x===''?'Sin dato':new Intl.NumberFormat('es-MX',{maximumFractionDigits:1}).format(+x);
 const escapeHTML=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const state={mode:'huella',year:2025,before:2000,compare:false,split:50,opacity:.84,sat:false,district:'',selected:null,rows:new Map(),mb:{ready:false,error:null,urls:new Map(),lastTileOk:false}};
-const classes={'huella':'Huella urbana histórica','poblacion':'Densidad de población 2020','vivienda':'Densidad de viviendas 2020','economia':'Densidad de establecimientos 2025','implan':'Normas de planeación IMPLAN'};
+const state={mode:'huella',year:2025,before:2000,compare:false,split:50,opacity:.84,sat:false,district:'',selected:null,conselvaLayer:'inundaciones',rows:new Map(),mb:{ready:false,error:null,urls:new Map(),lastTileOk:false}};
+const classes={'huella':'Huella urbana histórica','poblacion':'Densidad de población 2020','vivienda':'Densidad de viviendas 2020','economia':'Densidad de establecimientos 2025','implan':'Normas de planeación IMPLAN','conselva':'Riesgo climático · Conselva'};
 if(!window.L){by('map').innerHTML='<div style="padding:110px 35px"><h2>El mapa requiere Leaflet y conexión a Internet.</h2><p>Abre este documento con acceso a red; los datos AGEB e IMPLAN permanecen incluidos en el archivo.</p></div>';}
 let map,streets,satellite,agebLayer,districtLayer,mbAfter=null,mbBefore=null,paneCurrent,paneBefore;
 if(window.L){
@@ -169,12 +205,42 @@ function styleAge(f){let p=f.properties,sel=p.CVEGEO===state.selected;if(state.d
  return {color:sel?'#fff6c7':state.mode==='huella'?'#4d8895':'#507d7e',weight:sel?2.4:state.mode==='huella'?.65:.75,opacity:sel?1:state.mode==='huella'?.52:.78,fillColor:sel?'#e4b96a':colors,fillOpacity:state.mode==='huella'?0:state.mode==='implan'?.035:(v==null?.26:.65)};
 }
 function densityColor(x,type){let cut=type==='pop'?[25,65,115,180]:[10,22,42,75];if(!Number.isFinite(x))return '#cbd5da';let colors=['#d6eee7','#a9dfd0','#6ac5a7','#30987a','#086146'];return colors[cut.filter(c=>x>c).length]}
+const CONSELVA_LAYERS={
+ inundaciones:{title:'Inundaciones · explorador completo',url:'https://conselva.org/mapa-vulnerabilidad/',description:'Explorador oficial de Conselva, con consulta de inundación fluvial y pluvial y otras amenazas.'},
+ laderas:{title:'Inestabilidad de laderas',url:'https://conselva.org/wp-content/mapas/ines_laderas/index.html',description:'Mapa individual de peligro de inestabilidad de laderas.'},
+ erosion:{title:'Erosión natural',url:'https://conselva.org/wp-content/mapas/erosion_natu/index.html',description:'Mapa individual de erosión natural.'},
+ marea:{title:'Marea de tormenta',url:'https://conselva.org/wp-content/mapas/marea_tor_2/index.html',description:'Mapa individual sobre marea de tormenta.'},
+ poblacion:{title:'Exposición de población urbana',url:'https://conselva.org/wp-content/mapas/exp_poblaurba2/index.html',description:'Mapa individual de exposición de población urbana a peligros climáticos.'},
+ infraestructura:{title:'Exposición de infraestructura urbana',url:'https://conselva.org/wp-content/mapas/expo_infraurb/index.html',description:'Mapa individual de infraestructura expuesta.'},
+ sectorial:{title:'Vulnerabilidad sectorial',url:'https://conselva.org/wp-content/mapas/vulnera_sectorial2/index.html',description:'Mapa individual de vulnerabilidad sectorial.'},
+ socioambiental:{title:'Vulnerabilidad socioambiental',url:'https://conselva.org/wp-content/mapas/vulne_soci/index.html',description:'Mapa individual de vulnerabilidad socioambiental.'}
+};
+function showConselvaLayer(){
+ const layer=CONSELVA_LAYERS[state.conselvaLayer]||CONSELVA_LAYERS.inundaciones;
+ by('conselvaLayer').value=state.conselvaLayer;
+ by('conselvaLayerName').textContent=layer.title;
+ by('conselvaLayerDescription').textContent=layer.description;
+ by('conselvaOpen').href=layer.url;
+ by('conselvaDirect').href=layer.url;
+ const frame=by('conselvaFrame');
+ frame.title='Conselva · '+layer.title;
+ if(frame.getAttribute('src')!==layer.url)frame.src=layer.url;
+}
 function switchMode(mode){state.mode=mode;document.querySelectorAll('.navbutton').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));by('topTitle').textContent=classes[mode];by('dynamicControls').style.display=mode==='huella'?'':'none';by('timeline').style.display=mode==='huella'?'':'none';
+ const external=mode==='conselva';
+ by('conselvaControls').classList.toggle('hide',!external);
+ by('conselvaEmbed').classList.toggle('hide',!external);
+ by('territoryControls').classList.toggle('hide',external);
+ by('censusControls').classList.toggle('hide',external);
+ if(external)showConselvaLayer();
+ else if(by('conselvaFrame').getAttribute('src')!=='about:blank')by('conselvaFrame').src='about:blank';
  if(mode!=='huella')removeTiles();else loadMapBiomas();
- if(mode==='poblacion'||mode==='vivienda'){let n=state.rows.size;setBadge(n?`${n} AGEB observadas`:'Sin datos por AGEB',n?'ok':'error');}
+ if(external)setBadge('Visor externo · Conselva','ok');
+ else if(mode==='poblacion'||mode==='vivienda'){let n=state.rows.size;setBadge(n?`${n} AGEB observadas`:'Sin datos por AGEB',n?'ok':'error');}
  else if(mode==='implan')setBadge('Normativa · sin polígonos','warn');
  else if(mode==='economia')setBadge('DENUE · 2025','ok');
- if(agebLayer)agebLayer.setStyle(styleAge);showDetails();}
+ if(agebLayer)agebLayer.setStyle(styleAge);showDetails();
+}
 function setBadge(t,level='loading'){let el=by('stateBadge');el.textContent=t;el.className='state '+(level==='ok'?'':level==='warn'?'loading':level==='error'?'error':'loading');}
 function setMBNote(msg,kind=''){let el=by('mbStatus');el.textContent=msg;el.className='note '+(kind==='ok'?'success':'');}
 function removeTiles(){if(mbAfter){map.removeLayer(mbAfter);mbAfter=null}if(mbBefore){map.removeLayer(mbBefore);mbBefore=null}by('compareLine').style.display='none'}
@@ -204,7 +270,11 @@ async function loadMapBiomas(){if(!map||state.mode!=='huella')return;const token
 }
 function makeYears(){for(let y=1985;y<=2025;y++){let o=document.createElement('option');o.value=y;o.textContent=y;by('beforeYear').append(o)}by('beforeYear').value=state.before;}
 function showDetails(){let p=state.selected?D.ageb.features.find(x=>x.properties.CVEGEO===state.selected)?.properties:null;by('detailTitle').textContent=state.mode==='implan'?'Normativa de Mazatlán':p?'AGEB '+p.CVEGEO.slice(-4):'Mazatlán';by('detailSub').textContent=state.mode==='implan'?'Programa de Desarrollo Urbano de Centro de Población 2023–2050':p?`${p.district||'Sin distrito'} · ${p.CVEGEO}`:'Selecciona una AGEB para abrir su ficha';let h='';
- if(state.mode==='implan'){h=renderIMPLAN();}
+ if(state.mode==='conselva'){const layer=CONSELVA_LAYERS[state.conselvaLayer]||CONSELVA_LAYERS.inundaciones;
+ by('detailTitle').textContent='Conselva · Mazatlán';
+ by('detailSub').textContent='Estudio de Vulnerabilidad Socioambiental · cartografía externa';
+ h=`<div class="cardlabel">Mapa seleccionado</div><div class="box"><strong>${escapeHTML(layer.title)}</strong><p class="sub">${escapeHTML(layer.description)}</p><div class="tiny">Se consulta el mapa publicado por Conselva. No son polígonos incorporados a la base geográfica de GROWA.</div></div><div class="cardlabel">Resultados agregados publicados</div><div class="kpiwrap"><div class="kpi"><strong>102,377</strong><span>Habitantes expuestos a peligros climáticos</span></div><div class="kpi"><strong>2,349</strong><span>Manzanas con población expuesta</span></div><div class="kpi"><strong>755</strong><span>Instalaciones vulnerables</span></div><div class="kpi"><strong>144,307</strong><span>Personas que podrían estar en riesgo en 2030</span></div></div><p class="sub">Cifras reportadas por el Estudio de Vulnerabilidad Socioambiental de Mazatlán. Alcance municipal/urbano agregado; no son resultados calculados por el visor de GROWA.</p><a class="linkbtn" href="https://conselva.org/estudio-de-vulnerabilidad/" target="_blank" rel="noopener noreferrer">Consultar resultados originales ↗</a><a class="linkbtn" href="https://conselva.org/wp-content/uploads/2025/11/Optimizado-digital-FMCN-Vulnerabilidad-Mazatlan.pdf" target="_blank" rel="noopener noreferrer">Consultar estudio técnico completo (PDF) ↗</a><div class="note">Uso técnico: los mapas están alojados en Conselva. No se ha identificado una API vectorial pública ni autorización para descargar/republicar sus geometrías. No se calculan intersecciones con AGEB, DENUE ni desarrollos inmobiliarios.</div>`;
+ }else if(state.mode==='implan'){h=renderIMPLAN();}
  else if(state.mode==='huella'){
  h=`<div class="cardlabel">Superficie urbana por satélite</div><div class="box"><strong>MapBiomas · ${state.year}</strong><p class="sub">La clasificación urbana se recibe desde la API de MapBiomas durante la navegación. No usamos polígonos de AGEB como sustitutos de píxeles urbanos.</p><div class="tiny">En este paquete no existe un ráster local, por lo que no se calculan todavía hectáreas de huella por AGEB ni diferencias espaciales.</div></div>`;
  if(p)h+=`<div class="cardlabel">AGEB seleccionada</div><div class="metric"><span>Clave</span><strong>${escapeHTML(p.CVEGEO)}</strong></div><div class="metric"><span>Área de la AGEB (no huella)</span><strong>${pretty(p.area_ha)} ha</strong></div><div class="metric"><span>Distrito</span><strong>${escapeHTML(p.district)}</strong></div>`;
@@ -291,6 +361,7 @@ async function loadCONAPO(){
  makeYears();const districts=[...new Set(D.ageb.features.map(x=>x.properties.district).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
  for(let d of districts){let opt=document.createElement('option');opt.value=d;opt.textContent=d;by('districtSelect').append(opt)}
  document.querySelectorAll('[data-mode]').forEach(x=>x.addEventListener('click',()=>switchMode(x.dataset.mode)));
+ by('conselvaLayer').addEventListener('change',e=>{if(!CONSELVA_LAYERS[e.target.value])return;state.conselvaLayer=e.target.value;if(state.mode==='conselva'){showConselvaLayer();showDetails()}});
  by('districtSelect').addEventListener('change',e=>{state.district=e.target.value;if(agebLayer)agebLayer.setStyle(styleAge);showDetails()});
  by('agebBoundaries').addEventListener('change',e=>{if(!agebLayer)return;if(e.target.checked)agebLayer.addTo(map);else map.removeLayer(agebLayer)});
  by('districtBoundaries').addEventListener('change',e=>{if(!districtLayer)return;if(e.target.checked)districtLayer.addTo(map);else map.removeLayer(districtLayer)});
