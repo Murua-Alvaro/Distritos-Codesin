@@ -69,6 +69,8 @@ La página `desarrolladores.html` está enlazada desde el menú superior y la ba
 - **Densidad de viviendas:** importación del Censo INEGI 2020, sin datos inventados.
 - **IMPLAN:** consulta de 14 categorías de parámetros urbanísticos. No equivale a geometría oficial de zonificación.
 - **Cartografía:** reutiliza `data/agebs.geojson` (295 polígonos), `data/distritos.geojson` (13 polígonos) y `data/economic_stats.json`, sin clonar ni modificar sus registros.
+- **Conselva · Riesgo climático:** nuevo modo en Desarrolladores con un selector de ocho mapas públicos (inundaciones, laderas, erosión, marea de tormenta, exposición de población e infraestructura, vulnerabilidad sectorial y socioambiental). Los mapas externos se consultan desde su servidor con visualización incrustada cuando está permitida; siempre se muestra un enlace directo de respaldo.
+- **Conselva · Resultados:** se citan cifras agregadas del [Estudio de Vulnerabilidad Socioambiental de Mazatlán](https://conselva.org/estudio-de-vulnerabilidad/) y se ofrece el [documento técnico](https://conselva.org/wp-content/uploads/2025/11/Optimizado-digital-FMCN-Vulnerabilidad-Mazatlan.pdf). Es una integración de consulta: sin acceso confirmado a API geográfica pública, no se hacen intersecciones con AGEB/DENUE ni se redistribuyen polígonos del estudio.
 
 **Entrada directa:** `/desarrolladores.html`. Si GitHub Pages está configurado para la rama principal, la ruta del proyecto suele ser `https://murua-alvaro.github.io/Distritos-Codesin/desarrolladores.html`.
 
