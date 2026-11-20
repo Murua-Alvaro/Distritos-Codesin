@@ -75,3 +75,33 @@ La página `desarrolladores.html` está enlazada desde el menú superior y la ba
 **Entrada directa:** `/desarrolladores.html`. Si GitHub Pages está configurado para la rama principal, la ruta del proyecto suele ser `https://murua-alvaro.github.io/Distritos-Codesin/desarrolladores.html`.
 
 **Control:** mantener la separación entre densidad poblacional observada 2020 y densidad de negocios DENUE 2025. Los parámetros IMPLAN no son polígonos de uso del suelo.
+
+## Interoperabilidad de datos abiertos — actualización del 19 de noviembre de 2026
+
+La sección **Desarrolladores** sigue siendo una única página, conectada a los mismos archivos oficiales del atlas. Esta actualización incluye:
+
+1. **Actividad económica:** modo de mapa de densidad DENUE (mayo 2025) con fichas de AGEB. El universo municipal es 26,950 establecimientos; la membresía de los 13 distritos comprende 25,422, y los 1,528 restantes no se asignan por proximidad.
+2. **Importación vectorial en el navegador:** GeoJSON (FeatureCollection o Feature) y CSV de puntos con columnas `LATITUD` y `LONGITUD` en WGS84, con 5,000 geometrías y 8 MB como límites de carga. El programa no incorpora datos ficticios. Admite archivos de obras o infraestructura **solo cuando el usuario disponga de geometrías georreferenciadas legítimas**.
+3. **GeoJSON por URL:** carga de documentos públicos HTTPS que permitan acceso entre orígenes (CORS). Los errores de origen, formato y descarga se presentan al usuario sin reemplazar la capa previa.
+4. **WMS:** agrega teselas de un servicio OGC bajo una URL HTTPS y un nombre de capa válido. El endpoint de INEGI se presenta como referencia documentada; el usuario debe seleccionar una capa de `GetCapabilities`. Una capa WMS representa imágenes, no atributos geográficos aptos para sumar o intersectar.
+5. **Cruce vectorial:** cuando se carga Turf.js, el visor cuenta las geometrías GeoJSON que intersectan la AGEB seleccionada; el cálculo está limitado a 2,000 geometrías para evitar bloquear el navegador. Es una coincidencia geométrica exploratoria, no un análisis de áreas afectadas ni un dictamen normativo o climático.
+6. **Información territorial:** resumen por distrito y fichas con área, negocios y población 2020 únicamente si CONAPO o INEGI ha sido incorporado. Se explicita la cobertura y se exporta un CSV con datos faltantes en blanco.
+7. **Conselva:** el visor institucional sigue siendo externo, pero se muestra de forma flotante junto al mapa nativo. No se descargan sus polígonos, no se inventan riesgos por AGEB ni se redistribuyen sus datos protegidos.
+
+### Fuentes y límites
+
+- [INEGI, catálogo de servicios WMS](https://www.inegi.org.mx/servicios/wsinfogeo/).
+- [IMPLAN Mazatlán, instrumentos de planeación](https://www.implanmazatlan.mx/instrumentos).
+- [Ayuntamiento de Mazatlán, ecosistema digital y sistema municipal de obras](https://tics.mazatlan.gob.mx/ecosistema-digital/). El portal documenta ubicación e inversión en obras, pero no se ha verificado una fuente descargable geográfica ni una API pública del micrositio.
+- [Conselva, Explorador de Vulnerabilidad Socioambiental](https://conselva.org/mapa-vulnerabilidad/) y [estudio técnico](https://conselva.org/estudio-de-vulnerabilidad/).
+
+### Comprobación funcional sugerida
+
+- Abrir `desarrolladores.html` y comprobar que aparecen las 295 AGEB, los 13 distritos y la nueva opción «Actividad económica · DENUE».
+- Seleccionar una AGEB, observar el panel conjunto y exportar el CSV.
+- Importar GeoJSON de prueba con 1 punto y 1 polígono sobre Mazatlán; verificar ficha de atributos y cruce, si está disponible Turf.js.
+- Importar CSV con encabezados `LATITUD,LONGITUD` y confirmar que filas sin coordenadas se descartan.
+- Probar una URL GeoJSON con CORS y un WMS válido; un servicio que no responda debe presentar advertencia.
+- Abrir el visor de Conselva y confirmar que se puede cerrar sin perder el mapa y las capas del entorno.
+- Verificar la publicación efectiva en el servidor. Este repositorio es estático y **no dispone de controles CI de despliegue comprobados**; una validación estática de JavaScript no sustituye pruebas en navegador.
+
