@@ -425,7 +425,7 @@ function openFromCsv(src){
  if(ix<0||iy<0)throw Error('El CSV requiere LATITUD y LONGITUD en WGS84');
  const features=[];
  for(const line of lines.slice(1)){
-  const cells=splitCSVLine(line);const y=Number(cells[iy]),x=Number(cells[ix]);
+  const cells=splitCSVLine(line);if(!String(cells[iy]??'').trim()||!String(cells[ix]??'').trim())continue;const y=Number(cells[iy]),x=Number(cells[ix]);
   if(!Number.isFinite(x)||!Number.isFinite(y)||Math.abs(x)>180||Math.abs(y)>90||(x===0&&y===0))continue;
   features.push({type:'Feature',geometry:{type:'Point',coordinates:[x,y]},properties:Object.fromEntries(h.map((v,i)=>[v,cells[i]??'']))});
  }
