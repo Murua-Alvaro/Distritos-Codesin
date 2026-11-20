@@ -23,6 +23,22 @@
 .conselva-source-mark{font-size:10px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:#8bd6bc;margin-bottom:9px}
 .conselva-control-help{font-size:11px;color:#afc6cc;line-height:1.55;margin-top:9px}
 @media(max-width:740px){.conselva-overlay{padding:68px 9px 12px}.conselva-overlay__head{align-items:flex-start;flex-direction:column;gap:8px}.conselva-overlay__head a{padding:8px 10px}}
+
+/* Geodatos abiertos: mapa único y fuente externa complementaria */
+.open-meta{font-size:10px;color:#9bb6c1;line-height:1.5;margin:7px 0 12px}
+.open-panel{padding:12px;border:1px solid #305661;border-radius:10px;background:#112b32;margin-top:12px}
+.open-panel strong{color:#9be8cd;font-size:12px}
+.open-panel p{color:#b9d3d8;font-size:11px;line-height:1.5;margin:7px 0 0}
+#openDataControls input:not([type=file]):not([type=range]){width:100%;color:#f2f8f9;background:#0b1d25;border:1px solid #395461;border-radius:8px;padding:10px}
+#openDataControls input[type=file]{max-width:100%}
+.open-buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.open-buttons button{flex:1 1 110px}
+.conselva-overlay{inset:80px 16px auto auto;width:min(520px,calc(100% - 32px));height:min(65vh,560px);padding:0;z-index:463;border:1px solid #547179;border-radius:12px;box-shadow:0 15px 45px #000b}
+.conselva-overlay__head{border-radius:12px 12px 0 0}
+.conselva-overlay__head button{background:#20423e;border:1px solid #47776d;color:#e3f9ee;border-radius:8px;padding:9px}
+.conselva-overlay__frame{margin:0 8px 6px}
+.conselva-overlay__foot{padding:0 10px 8px}
+@media(max-width:740px){.conselva-overlay{left:10px;right:10px;top:64px;width:auto;height:47vh;padding:0}}
 </style></head>
 <body>
 <div id="shell">
@@ -32,6 +48,7 @@
   <button class="navbutton active" data-mode="huella"><i class="dot"></i>Huella urbana · MapBiomas</button>
   <button class="navbutton" data-mode="poblacion"><i class="dot"></i>Densidad de población</button>
   <button class="navbutton" data-mode="vivienda"><i class="dot"></i>Densidad de vivienda</button>
+  <button class="navbutton" data-mode="economia"><i class="dot"></i>Actividad económica · DENUE</button>
   <button class="navbutton" data-mode="implan"><i class="dot"></i>Normativa · IMPLAN</button>
   <button class="navbutton" data-mode="conselva"><i class="dot"></i>Riesgo climático · Conselva</button>
  </div></section>
@@ -69,6 +86,32 @@
   <label class="togglelabel"><input type="checkbox" id="agebBoundaries" checked> Mostrar geometrías AGEB</label>
   <div class="field"><label>Mapa base</label><div class="layer-switch"><button id="streetBtn" class="on">Calles</button><button id="satBtn">Satélite</button></div></div>
  </section>
+
+ <section class="section" id="openDataControls">
+ <div class="groupLabel">Capas abiertas · interoperabilidad</div>
+ <p class="sub">Superpone geometrías y analiza la actividad económica del territorio. Los archivos se procesan en este navegador, sin subirlos a GROWA.</p>
+ <div class="field"><label for="openAgebSearch">Localizar AGEB (13 caracteres)</label><input id="openAgebSearch" type="text" placeholder="25012…" maxlength="13"></div>
+ <div class="open-buttons"><button class="control" id="openLocate">Localizar</button><button class="control" id="openExport">Exportar perfiles CSV</button></div>
+ <div class="open-panel" id="openSummary" aria-live="polite"></div>
+ <div class="groupLabel" style="margin-top:17px">Archivos vectoriales y obras</div>
+ <label class="filedrop">Importar GeoJSON o CSV con latitud y longitud<input type="file" id="openFile" accept=".geojson,.json,.csv"></label>
+ <div class="field"><label for="openUrl">GeoJSON público (URL HTTPS con CORS)</label><input type="url" id="openUrl" placeholder="https://…/datos.geojson"></div>
+ <div class="open-buttons"><button class="control" id="openLoadUrl">Cargar URL</button><button class="control" id="openRemove">Quitar capa</button></div>
+ <p class="statusline" id="openVectorStatus" role="status">Sin capa externa. No se crean polígonos de riesgo supuestos.</p>
+ <label class="togglelabel"><input type="checkbox" id="openVisible" checked> Mostrar capa vectorial</label>
+ <div class="groupLabel" style="margin-top:17px">Cartografía WMS</div>
+ <div class="field"><label for="openWmsUrl">Servicio WMS</label><input type="url" id="openWmsUrl" value="https://gaia.inegi.org.mx/NLB/tunnel/wms/wms61"></div>
+ <div class="field"><label for="openWmsName">Nombre de capa de GetCapabilities</label><input type="text" id="openWmsName" placeholder="Nombre oficial de la capa"></div>
+ <div class="open-buttons"><button class="control" id="openAddWms">Mostrar WMS</button><button class="control" id="openRemoveWms">Quitar WMS</button></div>
+ <p class="statusline" id="openWmsStatus" role="status">WMS ofrece imágenes, no datos para intersecciones.</p>
+ <div class="field"><label for="openAlpha">Opacidad de capas externas</label><input id="openAlpha" type="range" min="15" max="100" value="78"></div>
+ <div class="groupLabel" style="margin-top:17px">Fuentes públicas</div>
+ <p class="open-meta"><a target="_blank" rel="noopener noreferrer" href="https://www.inegi.org.mx/servicios/wsinfogeo/">INEGI · servicios geográficos WMS</a> · Catálogo oficial de capas</p>
+ <p class="open-meta"><a target="_blank" rel="noopener noreferrer" href="https://www.implanmazatlan.mx/instrumentos">IMPLAN Mazatlán · instrumentos</a> · Normativa, planeación y atlas de riesgos</p>
+ <p class="open-meta"><a target="_blank" rel="noopener noreferrer" href="https://tics.mazatlan.gob.mx/ecosistema-digital/">Ayuntamiento · información de obras</a> · Ubicación e inversión documentadas, descarga geográfica no verificada</p>
+ <p class="open-meta"><a target="_blank" rel="noopener noreferrer" href="https://conselva.org/mapa-vulnerabilidad/">Conselva · explorador climático</a> · Consulta complementaria, sin API vectorial confirmada</p>
+ <div class="note">Una superposición o coincidencia geográfica no determina uso de suelo, riesgo ni viabilidad de un predio. WMS no permite calcular indicadores sin datos vectoriales.</div>
+ </section>
  <section class="section" id="censusControls"><div class="groupLabel">Censo 2020 · INEGI</div><div class="sub">La densidad por AGEB aparecerá cuando incorpores el CSV o ZIP oficial de Sinaloa. El archivo se procesa en tu navegador.</div>
   <button type="button" class="control" id="loadConapo" style="width:100%;background:#166f69;color:#fff;border-color:#207e76;margin-bottom:10px;font-weight:700">Cargar población CONAPO 2020 por AGEB</button>
   <p class="statusline" id="conapoStatus">Descarga pública bajo demanda (22.9 MB). Fuente CONAPO, espejo abierto de IndiceMx. Sin cifras hasta completar la verificación.</p>
@@ -80,7 +123,7 @@
  <footer class="foot">Fuentes: MapBiomas México (Colección 1), INEGI, IMPLAN Mazatlán PDUCP 2023–2050, Conselva (visores externos y estudio) y archivo territorial Growa/CODESIN. Ver auditoría: no se inventan píxeles, población por AGEB ni zonificación por predio.</footer>
 </aside>
 <main class="map-wrap"><div id="map"></div><section id="conselvaEmbed" class="conselva-overlay hide" aria-label="Visualizador público de Conselva">
-  <div class="conselva-overlay__head"><div><strong id="conselvaLayerName">Inundaciones · visor completo</strong><span id="conselvaLayerDescription">Visor público alojado por Conselva</span></div><a id="conselvaDirect" href="https://conselva.org/mapa-vulnerabilidad/" target="_blank" rel="noopener noreferrer">Ver en Conselva ↗</a></div>
+  <div class="conselva-overlay__head"><div><strong id="conselvaLayerName">Inundaciones · visor completo</strong><span id="conselvaLayerDescription">Visor público alojado por Conselva</span></div><a id="conselvaDirect" href="https://conselva.org/mapa-vulnerabilidad/" target="_blank" rel="noopener noreferrer">Ver en Conselva ↗</a><button type="button" id="openCloseConselva" aria-label="Cerrar visor externo">✕</button></div>
   <div class="conselva-overlay__frame"><iframe id="conselvaFrame" title="Visor público de Conselva · Mazatlán" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" src="about:blank"></iframe></div>
   <div class="conselva-overlay__foot">Contenido interactivo suministrado por Conselva, Costas y Comunidades A.C. · Si el mapa no se carga, ábrelo desde el enlace superior. Las cifras agregadas del estudio no son estimaciones por AGEB.</div>
  </section><div class="maptop"><button class="pill mobilemenu" id="menuMobile">☰</button><span class="pill"><strong id="topTitle">Huella urbana histórica</strong> <span class="state loading" id="stateBadge">Conectando</span></span><span class="spacer"></span><button class="pill" id="detailToggle">Ficha territorial ☰</button><button class="pill" id="resetBtn">⊞ Restablecer vista</button></div>
@@ -89,6 +132,7 @@
 </main>
 <aside class="details" id="right"><div class="right-top"><div class="eyebrow">FICHA ESPACIAL</div><h1 id="detailTitle">Mazatlán</h1><div class="sub" id="detailSub">Selecciona un polígono de AGEB para consultar datos de la zona.</div></div><div class="right-body" id="rightBody"></div></aside>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js" defer></script>
 <script type="module">
 
 const agebPath='./data/agebs.geojson';
@@ -282,7 +326,7 @@ function showDetails(){let p=state.selected?D.ageb.features.find(x=>x.properties
  }else if(state.mode==='economia'){
  h=p?`<div class="cardlabel">Datos observados DENUE</div><div class="kpiwrap"><div class="kpi"><strong>${pretty(p.negocios_2025)}</strong><span>Establecimientos</span></div><div class="kpi"><strong>${pretty(p.densidad_negocios_km2)}</strong><span>Negocios por km²</span></div></div><div class="metric"><span>Superficie de AGEB</span><strong>${pretty(p.area_ha)} ha</strong></div><div class="metric"><span>Distrito</span><strong>${escapeHTML(p.district)}</strong></div>`:'<p class="sub">Selecciona una AGEB. Esta capa muestra densidad de negocios, no habitantes.</p>';
  }else{const d=p?state.rows.get(p.CVEGEO):null;h=p?`<div class="cardlabel">Censo de Población y Vivienda 2020</div><div class="kpiwrap"><div class="kpi"><strong>${d?.pop!=null?pretty(d.pop):'S/D'}</strong><span>Habitantes</span></div><div class="kpi"><strong>${d?.housing!=null?pretty(d.housing):'S/D'}</strong><span>Viviendas habitadas</span></div></div><div class="metric"><span>Habitantes por hectárea</span><strong>${d?.pop!=null?pretty(d.pop/N(p.area_ha)):'Sin dato'}</strong></div><div class="metric"><span>Viviendas por hectárea</span><strong>${d?.housing!=null?pretty(d.housing/N(p.area_ha)):'Sin dato'}</strong></div><div class="metric"><span>AGEB</span><strong>${escapeHTML(p.CVEGEO)}</strong></div>`:'<p class="sub">Importa el Censo 2020 de Sinaloa y selecciona una AGEB. La base actual no contiene cifras por AGEB.</p>';}
- by('rightBody').innerHTML=h;let el=by('zoningKey');if(el){renderZoning(el.value);el.addEventListener('change',()=>renderZoning(el.value))}
+ h+=openProfile(p);by('rightBody').innerHTML=h;let el=by('zoningKey');if(el){renderZoning(el.value);el.addEventListener('change',()=>renderZoning(el.value))}
 }
 function renderUrbanDocument(){let a=D.series.find(x=>x.anio==='1990'&&x.fuente_serie==='PDUCP_reportado');let b=D.series.find(x=>x.anio==='2020'&&x.fuente_serie==='PDUCP_reportado');if(!a||!b)return '';
  let val0=N(a.hectareas),val1=N(b.hectareas);return `<div class="dashed"></div><div class="cardlabel">Antecedente documental · NO es MapBiomas</div><div class="kpiwrap"><div class="kpi"><strong>${pretty(val0)} ha</strong><span>Superficie urbana reportada 1990</span></div><div class="kpi"><strong>${pretty(val1)} ha</strong><span>Superficie urbana reportada 2020</span></div></div><div class="area-bars"><div class="areabar"><b>1990</b><i style="height:${90*val0/val1}px"></i></div><div class="areabar"><b>2020</b><i style="height:90px"></i></div></div><p class="sub">+${pretty((val1/val0-1)*100)}% de superficie reportada en 30 años. Es una serie histórica documental del municipio, sin polígonos históricos vinculados. No mezclar con la clasificación satelital.</p>`;
@@ -357,12 +401,160 @@ async function loadCONAPO(){
  }catch(error){el.textContent='No se integró población: '+(error?.message||String(error));console.warn('CONAPO 2020',error);}
  finally{conapoLoading=false;button.disabled=false;}
 }
+
+/* Archivo externo separado de la base CODESIN: nunca altera sus AGEB. */
+const openLayer={data:null,vector:null,wms:null,opacity:.78,name:''};
+function openValidateUrl(value){
+ let u;try{u=new URL(value)}catch(e){throw Error('URL inválida')}
+ if(u.protocol!=='https:'||u.username||u.password)throw Error('Solo se admiten URL HTTPS sin credenciales');
+ return u.href;
+}
+function openNormalize(data){
+ const f=data?.type==='FeatureCollection'?data.features:data?.type==='Feature'?[data]:null;
+ if(!Array.isArray(f)||!f.length)throw Error('Se requiere FeatureCollection con geometrías');
+ if(f.length>5000)throw Error('Máximo 5,000 geometrías; filtra el archivo primero');
+ if(f.some(x=>x?.type!=='Feature'||!x.geometry?.type))throw Error('Hay geometrías inválidas o vacías');
+ return {type:'FeatureCollection',features:f};
+}
+function openFromCsv(src){
+ const lines=src.replace(/^\uFEFF/,'').split(/\r?\n/).filter(x=>x.trim());
+ if(lines.length<2||lines.length>5001)throw Error('CSV vacío o mayor de 5,000 filas');
+ const h=splitCSVLine(lines[0]).map(x=>x.trim().toUpperCase());
+ const iy=h.findIndex(x=>['LAT','LATITUD','LATITUDE'].includes(x));
+ const ix=h.findIndex(x=>['LON','LONGITUD','LONGITUDE','LNG','LONG'].includes(x));
+ if(ix<0||iy<0)throw Error('El CSV requiere LATITUD y LONGITUD en WGS84');
+ const features=[];
+ for(const line of lines.slice(1)){
+  const cells=splitCSVLine(line);const y=Number(cells[iy]),x=Number(cells[ix]);
+  if(!Number.isFinite(x)||!Number.isFinite(y)||Math.abs(x)>180||Math.abs(y)>90||(x===0&&y===0))continue;
+  features.push({type:'Feature',geometry:{type:'Point',coordinates:[x,y]},properties:Object.fromEntries(h.map((v,i)=>[v,cells[i]??'']))});
+ }
+ if(!features.length)throw Error('No hay puntos con coordenadas válidas');
+ return {type:'FeatureCollection',features};
+}
+function openPropertyCard(f){
+ const entries=Object.entries(f.properties||{}).slice(0,12);
+ return '<strong>'+escapeHTML(openLayer.name)+'</strong><table class="dataTable">'+entries.map(([k,v])=>'<tr><td>'+escapeHTML(k)+'</td><td>'+escapeHTML(String(v??'').slice(0,120))+'</td></tr>').join('')+'</table>';
+}
+function openAddVector(input,name){
+ if(!map)throw Error('Mapa no disponible');
+ const data=openNormalize(input);
+ if(!map.getPane('openVector')){map.createPane('openVector');map.getPane('openVector').style.zIndex=460}
+ const next=L.geoJSON(data,{pane:'openVector',
+  style:()=>({color:'#c98242',weight:2,opacity:openLayer.opacity,fillColor:'#e2a76f',fillOpacity:openLayer.opacity*.28}),
+  pointToLayer:(f,ll)=>L.circleMarker(ll,{pane:'openVector',radius:5,color:'#fff0cd',weight:1.3,fillColor:'#c98242',fillOpacity:openLayer.opacity}),
+  onEachFeature:(f,l)=>l.bindPopup(()=>openPropertyCard(f),{maxWidth:310})});
+ if(openLayer.vector)map.removeLayer(openLayer.vector);
+ openLayer.data=data;openLayer.name=name.slice(0,120);openLayer.vector=next;
+ by('openVisible').checked=true;next.addTo(map);
+ by('openVectorStatus').textContent='✓ '+data.features.length+' geometrías incorporadas: '+openLayer.name;
+ try{const b=next.getBounds();if(b.isValid())map.fitBounds(b,{padding:[30,30],maxZoom:13})}catch(e){}
+ showDetails();
+}
+function openIntersections(key){
+ if(!openLayer.data)return null;
+ const f=openLayer.data.features;
+ if(f.length>2000)return 'Capa grande: reduzca a 2,000 geometrías para analizar intersecciones.';
+ const a=D.ageb.features.find(x=>x.properties.CVEGEO===key);
+ if(!a)return null;
+ if(!window.turf?.booleanIntersects)return 'Intersecciones pendientes: biblioteca espacial no disponible.';
+ let count=0,fail=0;
+ for(const x of f){try{if(turf.booleanIntersects(a,x))count++}catch(e){fail++}}
+ return count+' de '+f.length+' geometrías con intersección'+(fail?' ('+fail+' no evaluadas)':'')+'. No es un indicador de riesgo.';
+}
+function openAggregate(){
+ const f=D.ageb.features.filter(x=>!state.district||x.properties.district===state.district);
+ const e=f.filter(x=>x.properties.negocios_2025!=null);
+ const business=e.reduce((t,x)=>t+Number(x.properties.negocios_2025||0),0);
+ const r=f.filter(x=>state.rows.get(x.properties.CVEGEO)?.pop!=null);
+ const pop=r.reduce((t,x)=>t+Number(state.rows.get(x.properties.CVEGEO).pop),0);
+ const area=f.reduce((t,x)=>t+Number(x.properties.area_ha||0),0);
+ return {f,e,business,r,pop,area};
+}
+function openSummary(){
+ const d=openAggregate();const el=by('openSummary');if(!el)return;
+ el.innerHTML='<strong>'+escapeHTML(state.district||'Universo de distritos CODESIN')+'</strong>'+
+ '<p>'+d.f.length+' AGEB · '+pretty(d.area)+' ha · '+pretty(d.business)+' establecimientos DENUE 2025 en '+d.e.length+'/'+d.f.length+' AGEB.</p>'+
+ '<p>'+(d.r.length?pretty(d.pop)+' habitantes observados 2020 en '+d.r.length+'/'+d.f.length+' AGEB (no equivale al total municipal).':'Población sin carga observada; no se imputa.')+'</p>';
+}
+function openProfile(p){
+ const d=openAggregate();openSummary();
+ if(!p)return '<div class="dashed"></div><div class="cardlabel">Diagnóstico territorial integrado</div>'+
+ '<div class="kpiwrap"><div class="kpi"><strong>'+d.f.length+'</strong><span>AGEB seleccionadas</span></div><div class="kpi"><strong>'+pretty(d.business)+'</strong><span>Negocios en '+d.e.length+'/'+d.f.length+' AGEB, DENUE 2025</span></div></div>'+
+ '<div class="metric"><span>Superficie AGEB</span><strong>'+pretty(d.area)+' ha</strong></div><p class="tiny">Universo CODESIN, no total municipal. Fuera de membresía: 1,528 establecimientos que no se reasignan.</p>';
+ const r=state.rows.get(p.CVEGEO);const cross=openIntersections(p.CVEGEO);
+ let h='<div class="dashed"></div><div class="cardlabel">Ficha AGEB · indicadores conjuntos</div>'+
+ '<div class="metric"><span>Clave</span><strong>'+escapeHTML(p.CVEGEO)+'</strong></div>'+
+ '<div class="metric"><span>Distrito</span><strong>'+escapeHTML(p.district)+'</strong></div>'+
+ '<div class="metric"><span>Negocios DENUE 2025</span><strong>'+(p.negocios_2025==null?'Sin dato':pretty(p.negocios_2025))+'</strong></div>'+
+ '<div class="metric"><span>Negocios/km²</span><strong>'+(p.densidad_negocios_km2==null?'Sin dato':pretty(p.densidad_negocios_km2))+'</strong></div>'+
+ '<div class="metric"><span>Habitantes 2020</span><strong>'+(r?.pop!=null?pretty(r.pop):'Sin dato')+'</strong></div>'+
+ '<div class="metric"><span>Área AGEB</span><strong>'+pretty(p.area_ha)+' ha</strong></div>';
+ if(cross!==null)h+='<div class="open-panel"><strong>Cruce con '+escapeHTML(openLayer.name)+'</strong><p>'+escapeHTML(cross)+'</p></div>';
+ return h+'<p class="tiny">Fuente DENUE mayo 2025; población 2020 solo tras importar CONAPO/INEGI. El cruce geométrico no es un dictamen.</p>';
+}
+function openExportCsv(){
+ const rows=[['CVEGEO','distrito','area_ha','denue_2025','negocios_km2','poblacion_2020','viviendas_2020','fuente_poblacion'].join(',')];
+ const q=v=>v==null?'':'"'+String(v).replace(/"/g,'""')+'"';
+ for(const f of D.ageb.features){
+  const p=f.properties;if(state.district&&p.district!==state.district)continue;
+  const r=state.rows.get(p.CVEGEO);
+  rows.push([p.CVEGEO,p.district,p.area_ha,p.negocios_2025,p.densidad_negocios_km2,r?.pop,r?.housing,r?(r.origin||'INEGI_2020'):''].map(q).join(','));
+ }
+ downloadText('GROWA_CODESIN_AGEB_DENUE2025_CENSO2020.csv',rows.join('\n'));
+}
+function openFind(){
+ const key=by('openAgebSearch').value.trim().toUpperCase();
+ if(!/^25012[0-9A-Z]{8}$/.test(key))throw Error('Escribe la clave AGEB completa de 13 caracteres');
+ const f=D.ageb.features.find(x=>x.properties.CVEGEO===key);
+ if(!f)throw Error('AGEB no encontrada en cartografía CODESIN');
+ state.selected=key;state.district='';by('districtSelect').value='';
+ if(map){agebLayer.setStyle(styleAge);map.fitBounds(L.geoJSON(f).getBounds(),{padding:[60,60],maxZoom:15})}
+ showDetails();
+}
+function openRegister(){
+ const note=(id,e)=>by(id).textContent='Sin incorporar: '+(e.message||String(e));
+ by('openLocate').addEventListener('click',()=>{try{openFind()}catch(e){note('openVectorStatus',e)}});
+ by('openAgebSearch').addEventListener('keydown',e=>{if(e.key==='Enter')by('openLocate').click()});
+ by('openExport').addEventListener('click',openExportCsv);
+ by('openFile').addEventListener('change',async e=>{try{
+  const file=e.target.files?.[0];if(!file)return;if(file.size>8e6)throw Error('Límite de 8 MB');
+  const t=await file.text();openAddVector(/\.csv$/i.test(file.name)?openFromCsv(t):JSON.parse(t),file.name);
+ }catch(error){note('openVectorStatus',error)}});
+ by('openLoadUrl').addEventListener('click',async()=>{const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),18000);try{
+  const url=openValidateUrl(by('openUrl').value.trim());by('openVectorStatus').textContent='Consultando URL…';
+  const r=await fetch(url,{mode:'cors',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);
+  if(Number(r.headers.get('content-length'))>8e6)throw Error('Archivo mayor de 8 MB');
+  const text=await r.text();if(text.length>8e6)throw Error('Archivo mayor de 8 MB');
+  openAddVector(JSON.parse(text),new URL(url).hostname);
+ }catch(error){note('openVectorStatus',error)}finally{clearTimeout(timer)}});
+ by('openRemove').addEventListener('click',()=>{if(map&&openLayer.vector)map.removeLayer(openLayer.vector);openLayer.vector=null;openLayer.data=null;openLayer.name='';by('openVectorStatus').textContent='Capa externa retirada';showDetails()});
+ by('openVisible').addEventListener('change',e=>{if(!map||!openLayer.vector)return;if(e.target.checked)openLayer.vector.addTo(map);else map.removeLayer(openLayer.vector)});
+ by('openAddWms').addEventListener('click',()=>{try{
+  if(!map)throw Error('Mapa no disponible');
+  const url=openValidateUrl(by('openWmsUrl').value.trim());
+  const name=by('openWmsName').value.trim();
+  if(!/^[\w:.,-]{1,180}$/.test(name))throw Error('Usa un nombre de capa válido de GetCapabilities');
+  if(!map.getPane('openWms')){map.createPane('openWms');map.getPane('openWms').style.zIndex=415}
+  const layer=L.tileLayer.wms(url,{layers:name,version:'1.1.1',format:'image/png',transparent:true,pane:'openWms',opacity:openLayer.opacity});
+  if(openLayer.wms)map.removeLayer(openLayer.wms);
+  openLayer.wms=layer;let successes=0;
+  layer.on('tileload',()=>{if(openLayer.wms===layer&&!successes++){by('openWmsStatus').textContent='✓ Servicio WMS recibió imágenes; sin atributos vectoriales.'}});
+  layer.on('tileerror',()=>{if(openLayer.wms===layer&&!successes)by('openWmsStatus').textContent='WMS sin teselas: verifica capa y servidor.'});
+  layer.addTo(map);by('openWmsStatus').textContent='Conectando WMS: '+name;
+ }catch(e){note('openWmsStatus',e)}});
+ by('openRemoveWms').addEventListener('click',()=>{if(map&&openLayer.wms)map.removeLayer(openLayer.wms);openLayer.wms=null;by('openWmsStatus').textContent='WMS retirado'});
+ by('openAlpha').addEventListener('input',e=>{openLayer.opacity=Number(e.target.value)/100;if(openLayer.wms)openLayer.wms.setOpacity(openLayer.opacity);if(openLayer.vector)openLayer.vector.setStyle({opacity:openLayer.opacity,fillOpacity:openLayer.opacity*.28})});
+ by('openCloseConselva').addEventListener('click',()=>switchMode('economia'));
+ openSummary();
+}
+
 (()=>{
  makeYears();const districts=[...new Set(D.ageb.features.map(x=>x.properties.district).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
  for(let d of districts){let opt=document.createElement('option');opt.value=d;opt.textContent=d;by('districtSelect').append(opt)}
  document.querySelectorAll('[data-mode]').forEach(x=>x.addEventListener('click',()=>switchMode(x.dataset.mode)));
  by('conselvaLayer').addEventListener('change',e=>{if(!CONSELVA_LAYERS[e.target.value])return;state.conselvaLayer=e.target.value;if(state.mode==='conselva'){showConselvaLayer();showDetails()}});
- by('districtSelect').addEventListener('change',e=>{state.district=e.target.value;if(agebLayer)agebLayer.setStyle(styleAge);showDetails()});
+ by('districtSelect').addEventListener('change',e=>{state.district=e.target.value;if(agebLayer)agebLayer.setStyle(styleAge);if(map&&state.district){const f=D.ageb.features.filter(x=>x.properties.district===state.district);if(f.length)map.fitBounds(L.geoJSON({type:'FeatureCollection',features:f}).getBounds(),{padding:[35,35],maxZoom:14})}showDetails()});
  by('agebBoundaries').addEventListener('change',e=>{if(!agebLayer)return;if(e.target.checked)agebLayer.addTo(map);else map.removeLayer(agebLayer)});
  by('districtBoundaries').addEventListener('change',e=>{if(!districtLayer)return;if(e.target.checked)districtLayer.addTo(map);else map.removeLayer(districtLayer)});
  by('satBtn').addEventListener('click',()=>{if(!map)return;map.removeLayer(streets);satellite.addTo(map);state.sat=true;by('satBtn').classList.add('on');by('streetBtn').classList.remove('on')});
@@ -379,6 +571,6 @@ async function loadCONAPO(){
  by('loadConapo').addEventListener('click',loadCONAPO);
  by('censusInput').addEventListener('change',async e=>{let f=e.target.files?.[0];if(!f)return;try{await importCensus(f)}catch(err){by('censusStatus').textContent='ERROR: '+err.message;state.rows.clear();by('exportCensus').disabled=true;showDetails()}});
  by('exportCensus').addEventListener('click',()=>{const hdr=['CVEGEO_AGEB','POBTOT','TVIVHAB','VPH_AGUADV','VPH_DRENAJ','VPH_C_ELEC'];let r=[hdr.join(',')];for(let x of state.rows.values())r.push([x.key,x.pop,x.housing,x.water,x.sewer,x.electric].map(v=>v??'').join(','));downloadText('GROWA_Mazatlan_Censo2020_AGEB_importado.csv',r.join('\n'))});
- showDetails();if(map)loadMapBiomas();
+ openRegister();showDetails();if(map)loadMapBiomas();
 })();
 </script></body></html>
